@@ -1,0 +1,50 @@
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    env_file: ./backend/config/.env
+    ports:
+      - "${PORT}:${PORT}"
+    depends_on:
+      - db
+      - ia-service
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+      - DATABASE_URL=postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}?sslmode=disable
+      - IA_URL=${IA_URL}
+      - PORT=${PORT}
+      - GIN_MODE=${GIN_MODE}
+    volumes:
+      - ./uploads:/app/uploads
+
+  db:
+    image: postgres:17
+    env_file: ./backend/config/.env
+    ports:
+      - "${DB_PORT}:5432"
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  ia-service:
+    build:
+      context: ./backend/IA
+      dockerfile: Dockerfile
+    env_file: ./backend/config/.env
+    ports:
+      - "${IA_PORT}:${IA_PORT}"
+    environment:
+      - OPENROUTER_API_KEY=${OPENROUTER_API_KEY}
+      - OPENROUTER_API_BASE=${OPENROUTER_API_BASE}
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - PORT=${PORT}
+      - IA_PORT=${IA_PORT}
+
+volumes:
+  postgres_data:

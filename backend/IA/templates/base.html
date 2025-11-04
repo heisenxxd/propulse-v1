@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proposta | Plataforma Multi-Atendimento</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --brand-purple: #4F398E;
+            --brand-purple-light: #f5f3ff;
+            --brand-purple-dark: #3a2a6b;
+            --brand-purple-subtle: #ede9fe;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: pink !important;
+        }
+        .bg-pattern {
+            background-color: #f8fafc;
+            background-image: radial-gradient(var(--brand-purple-light) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -2.6rem;
+            top: 0.8rem;
+            width: 1.25rem;
+            height: 1.25rem;
+            border-radius: 50%;
+            background-color: var(--brand-purple);
+            border: 4px solid #ddd6fe;
+        }
+        .flow-step-line::after {
+            content: '\f061';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            color: var(--brand-purple);
+            transform: rotate(90deg);
+        }
+        @media (min-width: 1024px) {
+            .flow-step-line::after {
+                transform: rotate(0deg);
+            }
+        }
+    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="bg-slate-50 text-slate-800">
+
+    <div class="bg-pattern">
+        <header class="text-center py-16 md:py-24 px-4">
+            <div class="max-w-4xl mx-auto">
+                <img src="url/imagem" alt="Logo" class="h-16 mx-auto mb-4">
+                <span class="text-purple-600 font-semibold">PROPOSTA COMERCIAL</span>
+                <h1 class="text-4xl md:text-6xl font-bold text-slate-900 mt-2">Plataforma Multi-Atendimento WhatsApp</h1>
+                <p class="text-xl md:text-2xl text-slate-600 mt-4">Centralize <span class="font-bold" style="color: var(--brand-purple);">4 números de WhatsApp</span> numa única plataforma para <span class="font-bold" style="color: var(--brand-purple);">40 atendentes</span>, com opções de servidor dedicado ou compartilhado.</p>
+            </div>
+        </header>
+    </div>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        
+        <section id="features" class="mb-24">
+            <h2 class="text-3xl font-bold text-center mb-4 text-slate-900">Funcionalidades Principais</h2>
+            <p class="text-lg text-center text-slate-600 max-w-3xl mx-auto mb-12">Todas as ferramentas que a sua equipe precisa para oferecer um atendimento rápido, organizado e eficiente.</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="glass-card p-6 rounded-2xl shadow-lg border border-slate-200 hover:shadow-2xl transition-shadow duration-300" style="background: rgba(255, 255, 255, 0.8);">
+                    <div class="flex items-center justify-center bg-purple-100 rounded-xl w-16 h-16 mb-4">
+                        <i class="fa-solid fa-inbox text-3xl" style="color: var(--brand-purple);"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2 text-slate-900">Caixa de Entrada Unificada</h3>
+                    <p class="text-slate-600">Receba e gira mensagens de múltiplos números de WhatsApp num só lugar, sem precisar de alternar entre telemóveis.</p>
+                </div>
+                <div class="glass-card p-6 rounded-2xl shadow-lg border border-slate-200 hover:shadow-2xl transition-shadow duration-300" style="background: rgba(255, 255, 255, 0.8);">
+                    <div class="flex items-center justify-center bg-purple-100 rounded-xl w-16 h-16 mb-4">
+                        <i class="fa-solid fa-users text-3xl" style="color: var(--brand-purple);"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2 text-slate-900">Múltiplos Atendentes</h3>
+                    <p class="text-slate-600">A sua equipe de 40 pessoas pode responder a clientes simultaneamente, com total visibilidade sobre quem está a tratar de cada conversa.</p>
+                </div>
+                <div class="glass-card p-6 rounded-2xl shadow-lg border border-slate-200 hover:shadow-2xl transition-shadow duration-300" style="background: rgba(255, 255, 255, 0.8);">
+                    <div class="flex items-center justify-center bg-purple-100 rounded-xl w-16 h-16 mb-4">
+                        <i class="fa-solid fa-network-wired text-3xl" style="color: var(--brand-purple);"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2 text-slate-900">Departamentos e Filas</h3>
+                    <p class="text-slate-600">Organize os atendimentos por setores (Vendas, Suporte, Financeiro) e distribua as conversas de forma automática para a equipe certa.</p>
+                </div>
+                <div class="glass-card p-6 rounded-2xl shadow-lg border border-slate-200 hover:shadow-2xl transition-shadow duration-300" style="background: rgba(255, 255, 255, 0.8);">
+                    <div class="flex items-center justify-center bg-purple-100 rounded-xl w-16 h-16 mb-4">
+                        <i class="fa-solid fa-robot text-3xl" style="color: var(--brand-purple);"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2 text-slate-900">Chatbots e Automação</h3>
+                    <p class="text-slate-600">Configure respostas automáticas, menus de boas-vindas e chatbots para qualificar leads ou responder a perguntas frequentes 24/7.</p>
+                </div>
+                <div class="glass-card p-6 rounded-2xl shadow-lg border border-slate-200 hover:shadow-2xl transition-shadow duration-300" style="background: rgba(255, 255, 255, 0.8);">
+                    <div class="flex items-center justify-center bg-purple-100 rounded-xl w-16 h-16 mb-4">
+                        <i class="fa-solid fa-chart-pie text-3xl" style="color: var(--brand-purple);"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2 text-slate-900">Relatórios e Métricas</h3>
+                    <p class="text-slate-600">Acompanhe o desempenho da equipe com dashboards que mostram o tempo de resposta, volume de conversas, satisfação do cliente e muito mais.</p>
+                </div>
+                <div class="glass-card p-6 rounded-2xl shadow-lg border border-slate-200 hover:shadow-2xl transition-shadow duration-300" style="background: rgba(255, 255, 255, 0.8);">
+                    <div class="flex items-center justify-center bg-purple-100 rounded-xl w-16 h-16 mb-4">
+                        <i class="fa-solid fa-chalkboard-user text-3xl" style="color: var(--brand-purple);"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2 text-slate-900">Treinamento e Suporte</h3>
+                    <p class="text-slate-600">A nossa equipe fornecerá um treinamento completo para os seus 40 utilizadores, garantindo que todos aproveitem ao máximo a plataforma.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="workflow" class="mb-24">
+            <h2 class="text-3xl font-bold text-center mb-4 text-slate-900">Como Funciona o Atendimento</h2>
+            <p class="text-lg text-center text-slate-600 max-w-3xl mx-auto mb-12">Um fluxo de trabalho simples e poderoso que organiza a comunicação desde o primeiro contacto do cliente.</p>
+            <div class="flex flex-col lg:flex-row items-center justify-center gap-8 text-center">
+                <div class="p-6 rounded-xl flex-1 max-w-sm">
+                    <div class="flex items-center justify-center bg-purple-100 rounded-full w-20 h-20 mx-auto mb-4">
+                        <i class="fab fa-whatsapp text-4xl" style="color: var(--brand-purple);"></i>
+                    </div>
+                    <h3 class="font-bold text-lg">1. O Cliente Inicia</h3>
+                    <p class="text-slate-600 text-sm">O cliente envia uma mensagem para qualquer um dos seus 4 números de WhatsApp.</p>
+                </div>
+                <div class="flow-step-line text-2xl h-12 lg:h-auto lg:w-16 flex items-center justify-center"></div>
+                <div class="p-6 rounded-xl flex-1 max-w-sm">
+                    <div class="flex items-center justify-center bg-purple-100 rounded-full w-20 h-20 mx-auto mb-4">
+                        <i class="fa-solid fa-sitemap text-3xl" style="color: var(--brand-purple);"></i>
+                    </div>
+                    <h3 class="font-bold text-lg">2. Triagem Automática</h3>
+                    <p class="text-slate-600 text-sm">Um chatbot pode saudar, apresentar opções e direcionar o cliente para o departamento correto.</p>
+                </div>
+                <div class="flow-step-line text-2xl h-12 lg:h-auto lg:w-16 flex items-center justify-center"></div>
+                <div class="p-6 rounded-xl flex-1 max-w-sm">
+                    <div class="flex items-center justify-center bg-purple-100 rounded-full w-20 h-20 mx-auto mb-4">
+                        <i class="fa-solid fa-user-check text-3xl" style="color: var(--brand-purple);"></i>
+                    </div>
+                    <h3 class="font-bold text-lg">3. Atendimento Humano</h3>
+                    <p class="text-slate-600 text-sm">Um atendente disponível assume a conversa na plataforma, com todo o histórico em mãos.</p>
+                </div>
+                <div class="flow-step-line text-2xl h-12 lg:h-auto lg:w-16 flex items-center justify-center"></div>
+                <div class="p-6 rounded-xl flex-1 max-w-sm">
+                    <div class="flex items-center justify-center bg-purple-100 rounded-full w-20 h-20 mx-auto mb-4">
+                        <i class="fa-solid fa-star text-3xl" style="color: var(--brand-purple);"></i>
+                    </div>
+                    <h3 class="font-bold text-lg">4. Resolução</h3>
+                    <p class="text-slate-600 text-sm">O problema é resolvido, a venda é feita e a conversa é finalizada e arquivada para futuras consultas.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="investment" class="mb-24 bg-white p-8 md:p-12 rounded-2xl shadow-xl">
+            <div class="max-w-5xl mx-auto text-center">
+                <h2 class="text-3xl font-bold mb-4 text-slate-900">Investimento</h2>
+                <p class="text-slate-600 mb-10">Escolha o plano ideal para a sua operação, com tudo incluído.</p>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 text-left">
+                    
+                    <div class="p-8 rounded-2xl bg-slate-50 border-2 border-slate-200 flex flex-col">
+                        <h3 class="text-2xl font-bold text-slate-800">Plano Compartilhado</h3>
+                        <p class="text-slate-600">A solução ideal para começar com o melhor custo-benefício.</p>
+                        
+                        <div class="my-4">
+                            <span class="text-lg font-semibold text-slate-600">Mensalidade</span>
+                            <p class="text-5xl font-bold my-2" style="color: var(--brand-purple);">R$ 1.260,00</p>
+                        </div>
+                        
+                        <div class="my-4">
+                            <span class="text-lg font-semibold text-slate-600">Taxa de Instalação</span>
+                            <p class="text-3xl font-bold my-2 text-green-600">ISENTA</p>
+                        </div>
+
+                        <ul class="space-y-2 mt-4 text-slate-700 flex-grow">
+                            <li class="flex items-center"><i class="fa-solid fa-check-circle mr-3" style="color: var(--brand-purple);"></i> 4 números de WhatsApp</li>
+                            <li class="flex items-center"><i class="fa-solid fa-check-circle mr-3" style="color: var(--brand-purple);"></i> 40 licenças de atendente</li>
+                            <li class="flex items-center"><i class="fa-solid fa-check-circle mr-3" style="color: var(--brand-purple);"></i> Todas as funcionalidades</li>
+                            <li class="flex items-center"><i class="fa-solid fa-check-circle mr-3" style="color: var(--brand-purple);"></i> Treinamento completo</li>
+                            <li class="flex items-center"><i class="fa-solid fa-check-circle mr-3" style="color: var(--brand-purple);"></i> Suporte técnico</li>
+                            <li class="flex items-center"><i class="fa-solid fa-check-circle mr-3" style="color: var(--brand-purple);"></i> Atualizações da plataforma</li>
+                        </ul>
+                    </div>
+
+                    <div class="p-8 rounded-2xl relative border-2 flex flex-col" style="background-color: var(--brand-purple-subtle); border-color: var(--brand-purple);">
+                        <span class="absolute top-0 -translate-y-1/2 bg-purple-600 text-white text-sm font-bold px-4 py-1 rounded-full uppercase">Recomendado</span>
+                        <h3 class="text-2xl font-bold" style="color: var(--brand-purple-dark);">Plano Dedicado</h3>
+                        <p class="text-slate-700">Performance máxima, estabilidade e personalização para sua marca.</p>
+                        
+                        <div class="my-4">
+                            <span class="text-lg font-semibold text-slate-700">Mensalidade</span>
+                            <p class="text-5xl font-bold my-2" style="color: var(--brand-purple-dark);">R$ 1.630,00</p>
+                        </div>
+                        
+                        <div class="my-4">
+                            <span class="text-lg font-semibold text-slate-700">Taxa de Instalação</span>
+                            <p class="text-3xl font-bold my-2 text-slate-800">R$ 300,00 <span class="text-base font-normal">(Pagamento único)</span></p>
+                        </div>
+
+                        <ul class="space-y-2 mt-4 text-slate-700 flex-grow">
+                            <li class="flex items-center font-bold"><i class="fa-solid fa-star mr-3 text-yellow-500"></i> Maior estabilidade e performance</li>
+                            <li class="flex items-center font-bold"><i class="fa-solid fa-star mr-3 text-yellow-500"></i> Personalização com logo e marca</li>
+                            <li class="flex items-center font-bold"><i class="fa-solid fa-star mr-3 text-yellow-500"></i> Suporte técnico prioritário</li>
+                            <li class="flex items-center font-bold"><i class="fa-solid fa-star mr-3 text-yellow-500"></i> Acesso antecipado a atualizações</li>
+                            <li class="flex items-center mt-2 pt-2 border-t border-purple-200"><i class="fa-solid fa-check-circle mr-3" style="color: var(--brand-purple);"></i> 4 números de WhatsApp</li>
+                            <li class="flex items-center"><i class="fa-solid fa-check-circle mr-3" style="color: var(--brand-purple);"></i> 40 licenças de atendente</li>
+                            <li class="flex items-center"><i class="fa-solid fa-check-circle mr-3" style="color: var(--brand-purple);"></i> Todas as funcionalidades</li>
+                            <li class="flex items-center"><i class="fa-solid fa-check-circle mr-3" style="color: var(--brand-purple);"></i> Treinamento completo</li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <section id="timeline" class="mb-24">
+            <h2 class="text-3xl font-bold text-center mb-12 text-slate-900">Plano de Implementação (5 Dias)</h2>
+            <div class="relative max-w-2xl mx-auto pl-12">
+                <div class="absolute left-8 top-0 h-full w-0.5" style="background-color: #ddd6fe;"></div>
+                <div class="relative mb-10 timeline-item">
+                    <h4 class="font-bold text-lg" style="color: var(--brand-purple);">Dias 1-2: Onboarding e Configuração</h4>
+                    <p class="text-slate-600">Reunião de kick-off, criação dos utilizadores, configuração dos 4 números de WhatsApp e definição dos departamentos.</p>
+                </div>
+                <div class="relative timeline-item">
+                    <h4 class="font-bold text-lg" style="color: var(--brand-purple);">Dias 3-4: Treinamento e Go-Live</h4>
+                    <p class="text-slate-600">Sessão de treinamento online com toda a equipe de 40 atendentes e ativação oficial da plataforma para o público.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="text-center bg-white p-12 rounded-2xl shadow-xl">
+            <h2 class="text-3xl font-bold mb-4 text-slate-900">Próximos Passos</h2>
+            <p class="text-lg text-slate-600 max-w-2xl mx-auto mb-8">Gostou da proposta? Para formalizar a parceria e iniciar a implementação, basta nos chamar diretamente no WhatsApp.</p>
+            <div class="flex flex-col justify-center items-center gap-4">
+                <div class="text-slate-600 text-left inline-block">
+                    <p class="text-xl mb-2 flex items-center">
+                        <i class="fab fa-whatsapp mr-2 text-2xl" style="color: #25D366;"></i>
+                        <span class="font-bold text-slate-900">Telefone-Número</span>
+                    </p>
+                    <p class="flex items-center">
+                        <i class="fas fa-globe mr-2" style="color: var(--brand-purple);"></i>
+                        site.com.br
+                    </p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+    <footer class="text-center py-8">
+        <p class="text-slate-500">&copy; 2025 Company Solutions. Todos os direitos reservados.</p>
+    </footer>
+
+</body>
+</html>
