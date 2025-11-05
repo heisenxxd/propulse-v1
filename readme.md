@@ -24,7 +24,7 @@ O usuário envia os dados da proposta via API, a IA gera um HTMl e, em seguida, 
 
 - **Geração de PDF com HTML/CSS:** Usa Playwright para renderizar HTML complexo (com CSS moderno como Tailwind) com perfeita fidelidade.
   
-- **Engenharia de Prompt (RAG):** A IA gera o HTML do zero baseado em templates e modelos pré-aprovados.
+- **Engenharia de Prompt:** A IA gera o HTML do zero baseado em templates e modelos pré-aprovados.
 
     
 
