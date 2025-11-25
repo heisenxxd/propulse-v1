@@ -20,7 +20,7 @@ if not base_url:
     raise ValueError("OPENROUTER_API_BASE não encontrada no .env")
 
 llm = ChatOpenAI(
-    model="minimax/minimax-m2:free",
+    model="x-ai/grok-4.1-fast:free",
     temperature=0.7,
     api_key=SecretStr(api_key),
     base_url=base_url,

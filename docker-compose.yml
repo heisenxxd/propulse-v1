@@ -3,7 +3,6 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
-    env_file: ./backend/config/.env
     ports:
       - "${PORT}:${PORT}"
     depends_on:
@@ -22,7 +21,6 @@ services:
 
   db:
     image: postgres:17
-    env_file: ./backend/config/.env
     ports:
       - "${DB_PORT}:5432"
     environment:
@@ -31,18 +29,17 @@ services:
       - POSTGRES_DB=${POSTGRES_DB}
     volumes:
       - postgres_data:/var/lib/postgresql/data
+      - ./backend/migrations:/docker-entrypoint-initdb.d
 
   ia-service:
     build:
       context: ./backend/IA
       dockerfile: Dockerfile
-    env_file: ./backend/config/.env
     ports:
       - "${IA_PORT}:${IA_PORT}"
     environment:
       - OPENROUTER_API_KEY=${OPENROUTER_API_KEY}
       - OPENROUTER_API_BASE=${OPENROUTER_API_BASE}
-      - OPENAI_API_KEY=${OPENAI_API_KEY}
       - PORT=${PORT}
       - IA_PORT=${IA_PORT}
 

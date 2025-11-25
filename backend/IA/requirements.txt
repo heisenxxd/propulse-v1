@@ -4,4 +4,4 @@ langchain
 langchain-openai  
 openai           
 python-dotenv       
-playwright
+playwright==1.55.0
