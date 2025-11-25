@@ -1,4 +1,4 @@
-# 🚀 Propulse
+# 🚀 Propulse - V1
 
 ![Tecnologia](https://img.shields.io/badge/Go-00ADD8?style=for-the-badge&logo=go&logoColor=white)
 ![Tecnologia](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
@@ -70,46 +70,28 @@ O projeto é totalmente "containerizado", facilitando a configuração do ambien
     
 2. **Configure as variáveis de ambiente:**
     
-    - Existe um arquivo de exemplo em `backend/config/.env.example`.
+    - Existe um arquivo de exemplo em `backend/.env.example`.
         
-    - Copie este arquivo para `backend/config/.env`
+    - Copie este arquivo para `backend/.env`
         
         ```
-        cp backend/config/.env.example backend/config/.env
+        cp backend/.env.example backend/.env
         ```
         
-    - Edite o novo arquivo `backend/config/.env` e preencha com suas chaves de API e credenciais do banco de dados.
+    - Edite o novo arquivo `backend/.env` e preencha com suas chaves de API e credenciais do banco de dados.
 
-3.  Execute o seguinte script SQL para criar a tabela:
+3. **Escolha o modelo de IA:**
 
-    ```sql
-    -- Habilita a extensão para gerar UUIDs
-    CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
-
-    -- Cria a tabela principal
-    CREATE TABLE propostas (
-        id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-        titulo VARCHAR(100) NOT NULL,
-        nome_empresa VARCHAR(255) NOT NULL,
-        nome_cliente VARCHAR(255) NOT NULL,
-        prompt TEXT NOT NULL,
-        cores TEXT[] NOT NULL,
-        logo VARCHAR(255),
-        logo_cliente VARCHAR(255),
-        status VARCHAR(50) NOT NULL,
-        arquivo_final VARCHAR(255),
-        data_criacao TIMESTAMPTZ NOT NULL,
-        last_update TIMESTAMPTZ NOT NULL,
-    );
-    ```
+   - Copie o ID do modelo escolhido em: https://openrouter.ai/models?q=free, entre em ./backend/IA/src/ia_generator/ia.py e na linha 23 ```model="x-ai/grok-4.1-fast:free",``` coloque o ID do modelo.
         
-4. **Suba os containers:**
+5. **Suba os containers:**
     
     ```
     docker-compose up -d --build
     ```
+    Ao subir o conteiner será criado o banco de dados com a tabela!
     
-4. Acesse o serviço de backend na porta mapeada (ex: `http://localhost:8080`).
+6. Acesse o serviço de backend na porta mapeada (ex: `http://localhost:8080`).
 
 # 🕹️ Testando os Endpoints (API)
 
