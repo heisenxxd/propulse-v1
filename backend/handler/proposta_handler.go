@@ -22,60 +22,71 @@ func NewPropostaHandler(service service.PropostaService) PropostaHandler {
 
 func (p *PropostaHandler) CriarProposta(ctx *gin.Context) {
 	var proposta model.Proposta
-	err := ctx.BindJSON(&proposta); if err != nil {
+	err := ctx.BindJSON(&proposta)
+	if err != nil {
 		logger.Error("Erro ao realizar o bind do JSON", err)
 		ctx.JSON(http.StatusBadRequest, err)
 		return
 	}
-	err = model.ValidarStructProposta(&proposta); if err != nil {
+	err = model.ValidarStructProposta(&proposta)
+	if err != nil {
 		logger.Error("Erro ao passar no validador de Struct da Proposta", err)
 		ctx.JSON(http.StatusBadRequest, err)
 		return
 	}
-	propostaOutput, err := p.propostaService.CriarProposta(proposta); if err != nil {
+	propostaOutput, err := p.propostaService.CriarProposta(proposta)
+	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, err)
 		return
 	}
+	omitHTML(propostaOutput)
 	ctx.JSON(http.StatusCreated, propostaOutput)
 }
 
 func (p *PropostaHandler) GetAllPropostas(ctx *gin.Context) {
-	listasDePropostas, err := p.propostaService.GetAllPropostas(); if err != nil {
+	listasDePropostas, err := p.propostaService.GetAllPropostas()
+	if err != nil {
 		logger.Error("Erro ao buscar propostas", err)
 		ctx.JSON(http.StatusInternalServerError, err)
 		return
+	}
+	for i := range *listasDePropostas {
+		omitHTML(&(*listasDePropostas)[i])
 	}
 	ctx.JSON(http.StatusOK, listasDePropostas)
 }
 
 func (p *PropostaHandler) FindByID(ctx *gin.Context) {
 	ParamID := ctx.Param("id")
-	proposta, err := p.propostaService.FindByID(ParamID); if err != nil {
+	proposta, err := p.propostaService.FindByID(ParamID)
+	if err != nil {
 		logger.Error("Erro para encontrar proposta", err)
 		ctx.JSON(http.StatusBadRequest, err)
 		return
 	}
+	omitHTML(proposta)
 	ctx.JSON(http.StatusOK, proposta)
 }
 
 func (p *PropostaHandler) UpdateProposta(ctx *gin.Context) {
-    idParam := ctx.Param("id")
-    id, err := uuid.Parse(idParam)
-    if err != nil {
-        ctx.JSON(http.StatusBadRequest, gin.H{"error": "ID inválido"})
-        return
-    }
-    var update model.PropostaUpdate
-    if err := ctx.BindJSON(&update); err != nil {
-        ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-        return
-    }
-    proposta, err := p.propostaService.UpdateProposta(id, update)
-    if err != nil {
-        ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
-        return
-    }
-    ctx.JSON(http.StatusOK, proposta)
+	idParam := ctx.Param("id")
+	id, err := uuid.Parse(idParam)
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": "ID inválido"})
+		return
+	}
+	var update model.PropostaUpdate
+	if err := ctx.BindJSON(&update); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	proposta, err := p.propostaService.UpdateProposta(id, update)
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	omitHTML(proposta)
+	ctx.JSON(http.StatusOK, proposta)
 }
 
 func (p *PropostaHandler) DeleteProposta(ctx *gin.Context) {
@@ -91,20 +102,24 @@ func (p *PropostaHandler) DeleteProposta(ctx *gin.Context) {
 func (p *PropostaHandler) RegerarProposta(ctx *gin.Context) {
 	var propostaInput model.RegerarProposta
 	idParam := ctx.Param("id")
-	err := ctx.BindJSON(&propostaInput); if err != nil {
+	err := ctx.BindJSON(&propostaInput)
+	if err != nil {
 		logger.Error("Erro ao realizar o bind do JSON", err)
 		ctx.JSON(http.StatusBadRequest, err)
 		return
 	}
-	err = model.ValidarStructRegerarProposta(&propostaInput); if err != nil {
+	err = model.ValidarStructRegerarProposta(&propostaInput)
+	if err != nil {
 		logger.Error("Erro ao passar no validador de Struct da Proposta", err)
 		ctx.JSON(http.StatusBadRequest, err)
 		return
 	}
-	propostaOutput, err := 	p.propostaService.RegerarProposta(idParam, propostaInput); if err != nil {
+	propostaOutput, err := p.propostaService.RegerarProposta(idParam, propostaInput)
+	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, err)
 		return
 	}
+	omitHTML(propostaOutput)
 	ctx.JSON(http.StatusCreated, propostaOutput)
 }
 
@@ -112,10 +127,17 @@ func (h *PropostaHandler) RegisterRoutes(router *gin.Engine) {
 	propostaRoutes := router.Group("/proposta")
 	{
 		propostaRoutes.POST("/", h.CriarProposta)
-		propostaRoutes.POST("/:id/regerar")
+		propostaRoutes.POST("/:id/regerar", h.RegerarProposta)
 		propostaRoutes.GET("/", h.GetAllPropostas)
 		propostaRoutes.GET("/:id", h.FindByID)
 		propostaRoutes.PATCH("/:id", h.UpdateProposta)
 		propostaRoutes.DELETE("/:id", h.DeleteProposta)
 	}
+}
+
+func omitHTML(p *model.Proposta) {
+	if p == nil {
+		return
+	}
+	p.Html = ""
 }

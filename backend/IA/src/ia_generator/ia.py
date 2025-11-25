@@ -85,6 +85,8 @@ prompt = ChatPromptTemplate.from_template(
 chain = prompt | llm | StrOutputParser()
 
 async def gerar_html_proposta(proposta: PropostaModel) -> str:
+    html_existente = getattr(proposta, "html", None)
+    referencia_html = html_existente if html_existente else exemplo_html
     input_data = {
         "nome_empresa": proposta.nome_empresa,
         "nome_cliente": proposta.nome_cliente or "Não informado",
@@ -93,7 +95,7 @@ async def gerar_html_proposta(proposta: PropostaModel) -> str:
         "cores": ", ".join(proposta.cores) if proposta.cores else "Cores padrão (azul e cinza)",
         "logo": proposta.logo,
         "logo_cliente": proposta.logo_cliente,
-        "exemplo_html": exemplo_html
+        "exemplo_html": referencia_html
     }
     try:
         resultado_html = await chain.ainvoke(input_data)

@@ -3,6 +3,7 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
+    command: air
     ports:
       - "${PORT}:${PORT}"
     depends_on:
@@ -18,6 +19,7 @@ services:
       - GIN_MODE=${GIN_MODE}
     volumes:
       - ./uploads:/app/uploads
+      - ./backend:/app
 
   db:
     image: postgres:17
@@ -42,6 +44,8 @@ services:
       - OPENROUTER_API_BASE=${OPENROUTER_API_BASE}
       - PORT=${PORT}
       - IA_PORT=${IA_PORT}
+    volumes:
+      - ./backend/IA:/app
 
 volumes:
   postgres_data:

@@ -2,6 +2,7 @@ package service
 
 import (
 	"bytes"
+	"encoding/base64"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -24,6 +25,11 @@ type PropostaService struct {
 
 var iaURL = os.Getenv("IA_URL")
 
+type iaResponse struct {
+	Html      string `json:"html"`
+	PDFBase64 string `json:"pdf_base64"`
+}
+
 func NewPropostaService(pr repository.PropostaRepository) PropostaService {
 	return PropostaService{
 		repository: pr,
@@ -33,12 +39,13 @@ func NewPropostaService(pr repository.PropostaRepository) PropostaService {
 func (ps *PropostaService) SalvarPDF(propostaID uuid.UUID, pdfData []byte) (string, error) {
 	diretorioDestino := filepath.Join("uploads", "propostas")
 	if err := os.MkdirAll(diretorioDestino, 0755); err != nil {
-		logger.Error("Erro ao criar diretório de destino:", err, zap.String("Path", diretorioDestino))
-		return "", err 
+		logger.Error("Erro ao criar diretorio de destino:", err, zap.String("Path", diretorioDestino))
+		return "", err
 	}
 	nomeArquivo := fmt.Sprintf("proposta_%s.pdf", propostaID.String())
 	filePath := filepath.Join(diretorioDestino, nomeArquivo)
-	err := os.WriteFile(filePath, pdfData, 0644); if err != nil {
+	err := os.WriteFile(filePath, pdfData, 0644)
+	if err != nil {
 		logger.Error("Erro ao salvar arquivo PDF no disco:", err)
 		return "", err
 	}
@@ -57,6 +64,9 @@ func (ps *PropostaService) GetAllPropostas() (*[]model.Proposta, error) {
 
 func (ps *PropostaService) CriarProposta(propostaInput model.Proposta) (*model.Proposta, error) {
 	propostaInput.Id = uuid.New()
+	if propostaInput.Html == "" {
+		propostaInput.Html = ""
+	}
 	propostaOutput, err := ps.repository.CriarProposta(propostaInput)
 	if err != nil {
 		logger.Error("Erro ao criar proposta!", err)
@@ -68,21 +78,31 @@ func (ps *PropostaService) CriarProposta(propostaInput model.Proposta) (*model.P
 		return &model.Proposta{}, err
 	}
 	payload := bytes.NewBuffer(body)
-	resp, err := http.Post(iaURL + "/gerarproposta/pdf_dynamic", "application/json", payload)
+	resp, err := http.Post(iaURL+"/gerarproposta/pdf_dynamic", "application/json", payload)
 	if err != nil {
 		logger.Error("Erro ao gerar proposta", err)
 		return &model.Proposta{}, err
 	}
 	defer resp.Body.Close()
 	if resp.StatusCode != http.StatusOK {
-		logger.Error("Serviço de IA retornou um erro:", errors.New(resp.Status))
+		logger.Error("Servico de IA retornou um erro:", errors.New(resp.Status))
 		errorBody, _ := io.ReadAll(resp.Body)
 		logger.Error("Detalhe do erro da IA:", errors.New(string(errorBody)))
-		return nil, fmt.Errorf("serviço de IA falhou: %s", resp.Status)
+		return nil, fmt.Errorf("servico de IA falhou: %s", resp.Status)
 	}
-	pdfBytes, err := io.ReadAll(resp.Body)
+	respBody, err := io.ReadAll(resp.Body)
 	if err != nil {
-		logger.Error("Erro ao ler o PDF da resposta da IA:", err)
+		logger.Error("Erro ao ler resposta final da IA:", err)
+		return nil, err
+	}
+	var iaResp iaResponse
+	if err := json.Unmarshal(respBody, &iaResp); err != nil {
+		logger.Error("Erro ao decodificar resposta da IA:", err)
+		return nil, err
+	}
+	pdfBytes, err := base64.StdEncoding.DecodeString(iaResp.PDFBase64)
+	if err != nil {
+		logger.Error("Erro ao decodificar PDF recebido da IA:", err)
 		return nil, err
 	}
 	filePath, err := ps.SalvarPDF(propostaOutput.Id, pdfBytes)
@@ -92,9 +112,10 @@ func (ps *PropostaService) CriarProposta(propostaInput model.Proposta) (*model.P
 	}
 	novoStatus := "rascunho"
 	updateData := model.PropostaUpdate{
-        ArquivoFinal: &filePath,
-        Status:       &novoStatus,
-    }
+		ArquivoFinal: &filePath,
+		Status:       &novoStatus,
+		Html:         &iaResp.Html,
+	}
 	propostaAtualizada, err := ps.repository.UpdateProposta(propostaOutput.Id, updateData)
 	if err != nil {
 		logger.Error("Erro ao atualizar proposta com caminho do PDF:", err)
@@ -157,7 +178,7 @@ func (ps *PropostaService) DeleteProposta(idParam string) error {
 func (ps *PropostaService) RegerarProposta(idParam string, input model.RegerarProposta) (*model.Proposta, error) {
 	id, err := uuid.Parse(idParam)
 	if err != nil {
-		logger.Error("id não é um UUID válido", err)
+		logger.Error("id nao e um UUID valido", err)
 		return nil, err
 	}
 	propostaAtualizada, err := ps.repository.UpdateForRegerar(id, input)
@@ -176,21 +197,33 @@ func (ps *PropostaService) RegerarProposta(idParam string, input model.RegerarPr
 
 	resp, err := http.Post(fullApiUrl, "application/json", payload)
 	if err != nil {
-		logger.Error("Erro ao chamar o serviço de IA", err)
+		logger.Error("Erro ao chamar o servico de IA", err)
 		return nil, err
 	}
 	defer resp.Body.Close()
 
 	if resp.StatusCode != http.StatusOK {
 		errorBody, _ := io.ReadAll(resp.Body)
-		errorMsg := fmt.Errorf("serviço de IA falhou: %s - %s", resp.Status, string(errorBody))
+		errorMsg := fmt.Errorf("servico de IA falhou: %s - %s", resp.Status, string(errorBody))
 		logger.Error("Erro:", errorMsg)
 		return nil, errorMsg
 	}
 
-	pdfBytes, err := io.ReadAll(resp.Body)
+	respBody, err := io.ReadAll(resp.Body)
 	if err != nil {
-		logger.Error("Erro ao ler o PDF da resposta da IA", err)
+		logger.Error("Erro ao ler resposta final da IA", err)
+		return nil, err
+	}
+
+	var iaResp iaResponse
+	if err := json.Unmarshal(respBody, &iaResp); err != nil {
+		logger.Error("Erro ao decodificar resposta da IA", err)
+		return nil, err
+	}
+
+	pdfBytes, err := base64.StdEncoding.DecodeString(iaResp.PDFBase64)
+	if err != nil {
+		logger.Error("Erro ao decodificar PDF recebido da IA", err)
 		return nil, err
 	}
 
@@ -202,8 +235,9 @@ func (ps *PropostaService) RegerarProposta(idParam string, input model.RegerarPr
 
 	updateData := model.PropostaUpdate{
 		ArquivoFinal: &filePath,
+		Html:         &iaResp.Html,
 	}
-	
+
 	propostaComPDF, err := ps.repository.UpdateProposta(id, updateData)
 	if err != nil {
 		logger.Error("Erro ao atualizar proposta com caminho do PDF regerado", err)

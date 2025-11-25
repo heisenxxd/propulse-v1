@@ -12,6 +12,7 @@ class Proposta(BaseModel):
     cores: List[str]
     logo: Optional[str] = None
     logo_cliente: Optional[str] = Field(default=None, alias="logoCliente")
+    html: Optional[str] = None
     status: str
     arquivo_final: Optional[str] = Field(default=None, alias="arquivoFinal")
     data_criacao: datetime = Field(alias="dataCriacao")

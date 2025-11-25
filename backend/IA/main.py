@@ -1,5 +1,5 @@
 from fastapi import FastAPI, HTTPException, BackgroundTasks
-from fastapi.responses import FileResponse
+import base64
 import os
 import traceback
 
@@ -20,15 +20,16 @@ async def criar_proposta_pdf_dinamica(
         html_gerado = await gerar_html_proposta(proposta)
 
         caminho_pdf = await converter_html_para_pdf(html_gerado)
-        
+        with open(caminho_pdf, "rb") as pdf_file:
+            pdf_bytes = pdf_file.read()
+
         background_tasks.add_task(os.remove, caminho_pdf)
 
-        return FileResponse(
-            path=caminho_pdf,
-            media_type='application/pdf',
-            filename=f"proposta_{proposta.nome_empresa}.pdf"
-        )
-        
+        return {
+            "html": html_gerado,
+            "pdf_base64": base64.b64encode(pdf_bytes).decode("utf-8")
+        }
+
     except Exception as e:
         traceback.print_exc() 
         if caminho_pdf and os.path.exists(caminho_pdf):
